@@ -29,6 +29,37 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
+Real world recommendation systems work by using different techniques like collaborative filtering which entails the recommender recommends songs that other users similar to them also liked. Another technique is content based filtering which recommends songs that have similar characteristics to the ones the user has previously liked. This version will prioritize content based filtering and will recommend songs based on matching song characteristics. 
+
+-Song object feature:
+  -id
+  -title
+  -artist
+  -genre
+  -mood
+  -energy
+  -tempo_bpm
+  -valence
+  -danceability 
+  -acousticness
+
+-UserProfile object feature:
+  -favorite_genre
+  -favorite_mood
+  -target_energy
+  -likes_acoustic
+
+  Algorithm
+  -Takes user inputs, then for each song, checks the folllowing:
+  - If genre matches, +2 points.
+  - If mood matches, +1 point.
+  - Energy similarity is calculated by 1- abs(song.energy - user_song.energy)
+  - Acoustic: +0.5 points if likes_acoustic == TRUE and song's acoustic value is greater than 0.7
+- Returns the top k recommendations
+
+Potential biases: might prioritize genre because it is awarded more points, and might not recommend songs that match mood, and energy more closely. The CSV file has multiple entries for lofi but not the same for classical, which might produce a bias towards users who prfer lofi or songs with genres that are represented more in the CSV.
+
+![alt text](image.png)
 ---
 
 ## Getting Started
