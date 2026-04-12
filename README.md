@@ -60,6 +60,21 @@ Real world recommendation systems work by using different techniques like collab
 Potential biases: might prioritize genre because it is awarded more points, and might not recommend songs that match mood, and energy more closely. The CSV file has multiple entries for lofi but not the same for classical, which might produce a bias towards users who prfer lofi or songs with genres that are represented more in the CSV.
 
 ![alt text](image.png)
+
+Profile 1: lofi, sad, energy 0.9
+![alt text](image-1.png)
+
+Profile 2: metal, romantic
+![alt text](image-2.png)
+
+Profile 3: acoustic edge case fails
+![alt text](image-3.png)
+
+Profile 4: reggae isnt in songs.csv
+![alt text](image-4.png)
+
+Profile 5: reggae and energetic aren't in songs.csv 
+![alt text](image-5.png)
 ---
 
 ## Getting Started
@@ -132,6 +147,7 @@ Write 1 to 2 paragraphs here about what you learned:
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
 
+In profiles 1 with chill lofi genre and sad mood, lofi songs were recommended. In profile 2 with romantic mood, a metal-heavy song was recommended because the genre was metal, showing that genre overpowers mood in both these cases. In profile 3, acousticness was given more importance, so the songs with acousticness were rated highly even though the genre and mood were completely irrelevant to what the user wanted. In profile 4, the genre "reggae" wasn't in the dataset so it ignored that and returned happy songs which was the specified mood, so genre was completely overpowered in this case. And in profile 5, genre and mood both didn't exist in the dataset, so songs were recommended that didn't have anything to do with what was being asked for. 
 
 ---
 

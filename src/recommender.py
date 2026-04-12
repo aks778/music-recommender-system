@@ -82,7 +82,8 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
 
     energy_points = round(1.0 - abs(song["energy"] - user_prefs["energy"]), 2)
     score += energy_points
-    reasons.append(f"energy similarity ({song['energy']} vs {user_prefs['energy']}): +{energy_points}")
+    reasons.append(
+        f"energy similarity ({song['energy']} vs {user_prefs['energy']}): +{energy_points}")
 
     if user_prefs.get("likes_acoustic") and song["acousticness"] > 0.7:
         score += 0.5
