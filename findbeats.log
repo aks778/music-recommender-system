@@ -1,0 +1,67 @@
+2026-04-28 10:42:57,650 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:43:18,930 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:43:19,660 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:43:19,682 [INFO] User message: Find me pop songs with a happy mood, energy level around 0.7, and I prefer non-acoustic tracks.
+2026-04-28 10:43:46,857 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 10:43:46,860 [WARNING] Model skipped tool call ï¿½ falling back to keyword extraction: genre=pop, mood=happy, energy=0.6
+2026-04-28 10:43:46,862 [INFO] search_songs called ï¿½ genre=pop, mood=happy, energy=0.6, acoustic=False
+2026-04-28 10:43:46,862 [INFO] Returning 5 songs from catalog.
+2026-04-28 10:43:46,865 [INFO] Assistant reply: Here are your top 5 picks:
+
+**1. Sunrise City** by Neon Echo  
+*pop ï¿½ happy ï¿½ energy 0.82*  
+Why: genre match (pop): +2.
+2026-04-28 10:43:46,950 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:44:20,663 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:44:20,683 [INFO] User message: actually i want something for studying very chill and relaxed
+2026-04-28 10:44:46,429 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 10:44:46,429 [WARNING] Model skipped tool call — falling back to keyword extraction: genre=lofi, mood=chill, energy=0.3
+2026-04-28 10:44:46,429 [INFO] search_songs called — genre=lofi, mood=chill, energy=0.3, acoustic=False
+2026-04-28 10:44:46,429 [INFO] Returning 5 songs from catalog.
+2026-04-28 10:44:46,429 [INFO] Assistant reply: Here are your top 5 picks:
+
+**1. Library Rain** by Paper Lanterns  
+*lofi · chill · energy 0.35*  
+Why: genre match (lof
+2026-04-28 10:47:18,286 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:47:41,183 [INFO] Loaded 18 songs from catalog.
+2026-04-28 10:47:41,205 [INFO] User message: I am looking for something chill and relaxed for studying
+2026-04-28 10:47:41,207 [INFO] Retrieved songs — genre=lofi, mood=chill, energy=0.3
+2026-04-28 10:47:41,207 [INFO] Injecting 5 songs into prompt.
+2026-04-28 10:48:11,674 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 10:48:11,675 [INFO] Model generated response successfully.
+2026-04-28 12:02:42,207 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:02:55,981 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:02:56,004 [INFO] User message: I want some tracks that are chill for studying
+2026-04-28 12:02:56,007 [INFO] Retrieved songs — genre=lofi, mood=chill, energy=0.3
+2026-04-28 12:02:56,007 [INFO] Injecting 5 songs into prompt.
+2026-04-28 12:03:32,700 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 12:03:32,737 [INFO] Model generated response successfully.
+2026-04-28 12:05:03,383 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:05:09,526 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:05:12,371 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:05:13,531 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:05:13,545 [INFO] User message: Find me pop songs with a intense mood, energy level around 0.8, and I prefer non-acoustic tracks.
+2026-04-28 12:05:13,547 [INFO] Retrieved songs — genre=pop, mood=intense, energy=0.6
+2026-04-28 12:05:13,547 [INFO] Injecting 5 songs into prompt.
+2026-04-28 12:05:42,765 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 12:05:42,765 [INFO] Model generated response successfully.
+2026-04-28 12:05:42,768 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:06:31,122 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:06:33,837 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:06:35,584 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:06:36,432 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:06:36,448 [INFO] User message: Find me pop songs with a sad mood, energy level around 0.3, and I prefer non-acoustic tracks.
+2026-04-28 12:06:36,450 [INFO] Retrieved songs — genre=pop, mood=sad, energy=0.6
+2026-04-28 12:06:36,452 [INFO] Injecting 5 songs into prompt.
+2026-04-28 12:07:10,983 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 12:07:11,020 [INFO] Model generated response successfully.
+2026-04-28 12:07:11,073 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:11:00,518 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:11:01,932 [INFO] Loaded 18 songs from catalog.
+2026-04-28 12:11:01,942 [INFO] User message: Find me lofi songs with a sad mood, energy level around 0.3, and I prefer non-acoustic tracks.
+2026-04-28 12:11:01,944 [INFO] Retrieved songs — genre=lofi, mood=sad, energy=0.6
+2026-04-28 12:11:01,946 [INFO] Injecting 5 songs into prompt.
+2026-04-28 12:11:35,821 [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2026-04-28 12:11:35,821 [INFO] Model generated response successfully.
+2026-04-28 12:11:35,871 [INFO] Loaded 18 songs from catalog.
