@@ -1,258 +1,120 @@
-# 🎵 Music Recommender Simulation
+# 🎵 FindBeats
 
-## Project Summary
+## Original Project Summary
 
-In this project you will build and explain a small music recommender system.
+Original project is Project 3 - Music Recommender Simulation
+Goal of original project: provide user 5 song recommendations that match their personal music preference, taking into account their preferred genre, mood, energy level, and whether they like acousticness or not based on a scoring rule. The user had to know exactly what genre, mood, and energy level they wanted
 
-Your goal is to:
+## Final Project Summary - FindBeats
 
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
-
+The original project was refined to use RAG to retrieve information from songs.csv to provide the user with song recommendations that match their preferences - either provided from a sidebar panel or simply through chatting with the tool. The extract_prefs function understands the user's preferences, recommend_songs works to apply the scoring rule and retrieves the songs from songs.csv, and the LLM generates the response provided to the user.
+This change from the previous project is important as it now provides the user the option to simply chat with the system instead of knowing exactly the genre, mood, and energy level they wanted. 
 ---
 
-## How The System Works
+## Architecture Overview
 
-Explain your design in plain language.
+The user can chat with the system or use the sidebar on the left to select their preferences. As soon as the user sends a message, extract_prefs reads it and determines the genre, mood, and energy level. Those preferences are  passed to recommend_songs, which scores every song in songs.csv using the scoring rule and returns the top 5 songs with reasons. The retrieved songs are then formatted into a context block by build_context and injected directly into the prompt sent to qwen2.5:1.5b. The LLM reads that context and generates a response using the retrieved songs.
 
-Some prompts to answer:
+## Sample Interactions
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+Sample run 1- User prompt: I want some tracks that are chill for studying.
 
-You can include a simple diagram or bullet list if helpful.
+![Sample Run 1](assets/Sample%20run%201-using%20chat.png)
 
-Real world recommendation systems work by using different techniques like collaborative filtering which entails the recommender recommends songs that other users similar to them also liked. Another technique is content based filtering which recommends songs that have similar characteristics to the ones the user has previously liked. This version will prioritize content based filtering and will recommend songs based on matching song characteristics. 
+Sample run 2- User prompt (using sidebar): genre: lofi, mood: sad, energy level: 0.3
 
--Song object feature:
-  -id
-  -title
-  -artist
-  -genre
-  -mood
-  -energy
-  -tempo_bpm
-  -valence
-  -danceability 
-  -acousticness
+![Sample Run 2](assets/Sample%20run%202-using%20sidebar.png)
 
--UserProfile object feature:
-  -favorite_genre
-  -favorite_mood
-  -target_energy
-  -likes_acoustic
 
-  Algorithm
-  -Takes user inputs, then for each song, checks the folllowing:
-  - If genre matches, +2 points.
-  - If mood matches, +1 point.
-  - Energy similarity is calculated by 1- abs(song.energy - user_song.energy)
-  - Acoustic: +0.5 points if likes_acoustic == TRUE and song's acoustic value is greater than 0.7
-- Returns the top k recommendations
+## Design Decisions
 
-Potential biases: might prioritize genre because it is awarded more points, and might not recommend songs that match mood, and energy more closely. The CSV file has multiple entries for lofi but not the same for classical, which might produce a bias towards users who prfer lofi or songs with genres that are represented more in the CSV.
+- I chose to use Ollama instead of a cloud model because it is free and doesn't need an API key. However, a trade off is the speed. It runs much slower than a cloud model.
+- I chose to include a UI for this because previously it was a command line application, and I wanted it to be more iteractive for the user. I chose to include a sidebar panel as well as a chat option so the user can use either of the two options to convey their preferences.
 
-![alt text](image.png)
+## Testing Summary
 
-Profile 1: lofi, sad, energy 0.9
-![alt text](image-1.png)
+**What worked:**
+- The scoring algorithm (recommend_songs) worked correctly and was verified with pytest — genre match, mood match, energy similarity, and acoustic preference all scored as expected
+- RAG returned real songs from songs.csv every time, with no hallucinations
+- The sidebar panel produces consistent results since preferences are passed directly as structured text
+- findbeats.log confirms that RAG works correctly before every response
 
-Profile 2: metal, romantic
-![alt text](image-2.png)
+**What didn't work:**
+- qwen2.5:0.5b was too small — it generated placeholder text instead of actually using the retrieved songs and qwen2.5:3b, a larger model worked but it was too slow so a qwen2.5:1b was used 
+- Tool-calling RAG (where the LLM decides when to call search_songs) failed because small models skipped the tool call completely
 
-Profile 3: acoustic edge case fails
-![alt text](image-3.png)
 
-Profile 4: reggae isnt in songs.csv
-![alt text](image-4.png)
+**What I learned:**
+- Small models can be unreliable for tool use 
+- The LLM's role in this system is generation only — all retrieval and scoring logic should stay in Python
 
-Profile 5: reggae and energetic aren't in songs.csv 
-![alt text](image-5.png)
+## Reflection
+
+This project helped me gain an understanding of how AI models behave, and how its the job of the human to make architecture and design decisions in order to ensure the system works as intended. The smaller AI model was fast, but it wasn't reliable, but the bigger one was too slow, but provided accurate responses. And so, this project showed me that AI can work unexpectedly and so it is necessary to keep a human in the loop who can problem solve and make decisions that can prevent errors. An important debugging and problem solving method I gained from this project was to use logs to understand how the AI was working in the background, which allowed me to immediately understand that a certain function wasn't being called at all, requiring me to change my design. I also gained an indepth understanding of how real music recommendation apps like Spotify work. 
+
+## System Diagram
+
+![System Design](assets/System%20design.png)
+
+**Data flow:**
+- **Input** — user types naturally or fills in the sidebar form
+- **Retrieve** — `extract_prefs` reads the user message and determines genre, mood, and energy; `recommend_songs` immediately scores and retrieves the top 5 songs from `songs.csv`
+- **Augment** — `build_context` formats the retrieved songs and their scoring reasons into a prompt the LLM can read
+- **Generate** — the LLM receives the augmented prompt and writes a response using only the retrieved data
+- **Output** — grounded response with real song titles, artists, and reasons from the catalog
+- **Logging** — every retrieval and generation step is written to `findbeats.log`
+- **Testing** — pytest covers the scoring logic; humans verify output quality via logs
+
 ---
 
 ## Getting Started
 
+### Requirements
+
+- Python 3.10+
+- [Ollama](https://ollama.com) (free, runs AI locally — no API key needed)
+
 ### Setup
 
-1. Create a virtual environment (optional but recommended):
+1. Install [Ollama](https://ollama.com) and pull the model:
+
+   ```bash
+   ollama pull qwen2.5:1.5b
+   ```
+
+2. Create a virtual environment (optional but recommended):
 
    ```bash
    python -m venv .venv
-   source .venv/bin/activate      # Mac or Linux
+   source .venv/bin/activate      # Mac / Linux
    .venv\Scripts\activate         # Windows
+   ```
 
-2. Install dependencies
+3. Install dependencies:
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3. Run the app:
+4. Run the app:
 
-```bash
-python -m src.main
-```
+   ```bash
+   streamlit run app.py
+   ```
+
+   The app will open automatically in your browser at `http://localhost:8501`.
+
+> **Note:** Make sure Ollama is running in the background before starting the app.  
+> On Windows it starts automatically after installation. On Mac/Linux run `ollama serve`.
+
+### Logs
+
+The app writes logs to `findbeats.log` in the project root. This tracks every tool call, fallback event, and error for debugging.
 
 ### Running Tests
-
-Run the starter tests with:
 
 ```bash
 pytest
 ```
 
-You can add more tests in `tests/test_recommender.py`.
-
----
-
-## Experiments You Tried
-
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
-
----
-
-## Limitations and Risks
-
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
-
----
-
-## Reflection
-
-Read and complete `model_card.md`:
-
-[**Model Card**](model_card.md)
-
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-In profiles 1 with chill lofi genre and sad mood, lofi songs were recommended. In profile 2 with romantic mood, a metal-heavy song was recommended because the genre was metal, showing that genre overpowers mood in both these cases. In profile 3, acousticness was given more importance, so the songs with acousticness were rated highly even though the genre and mood were completely irrelevant to what the user wanted. In profile 4, the genre "reggae" wasn't in the dataset so it ignored that and returned happy songs which was the specified mood, so genre was completely overpowered in this case. And in profile 5, genre and mood both didn't exist in the dataset, so songs were recommended that didn't have anything to do with what was being asked for. 
-
----
-
-## 7. `model_card_template.md`
-
-Combines reflection and model card framing from the Module 3 guidance. :contentReference[oaicite:2]{index=2}  
-
-```markdown
-# 🎧 Model Card - Music Recommender Simulation
-
-## 1. Model Name
-
-Give your recommender a name, for example:
-
-> VibeFinder 1.0
-
----
-
-## 2. Intended Use
-
-- What is this system trying to do
-- Who is it for
-
-Example:
-
-> This model suggests 3 to 5 songs from a small catalog based on a user's preferred genre, mood, and energy level. It is for classroom exploration only, not for real users.
-
----
-
-## 3. How It Works (Short Explanation)
-
-Describe your scoring logic in plain language.
-
-- What features of each song does it consider
-- What information about the user does it use
-- How does it turn those into a number
-
-Try to avoid code in this section, treat it like an explanation to a non programmer.
-
----
-
-## 4. Data
-
-Describe your dataset.
-
-- How many songs are in `data/songs.csv`
-- Did you add or remove any songs
-- What kinds of genres or moods are represented
-- Whose taste does this data mostly reflect
-
----
-
-## 5. Strengths
-
-Where does your recommender work well
-
-You can think about:
-- Situations where the top results "felt right"
-- Particular user profiles it served well
-- Simplicity or transparency benefits
-
----
-
-## 6. Limitations and Bias
-
-Where does your recommender struggle
-
-Some prompts:
-- Does it ignore some genres or moods
-- Does it treat all users as if they have the same taste shape
-- Is it biased toward high energy or one genre by default
-- How could this be unfair if used in a real product
-
----
-
-## 7. Evaluation
-
-How did you check your system
-
-Examples:
-- You tried multiple user profiles and wrote down whether the results matched your expectations
-- You compared your simulation to what a real app like Spotify or YouTube tends to recommend
-- You wrote tests for your scoring logic
-
-You do not need a numeric metric, but if you used one, explain what it measures.
-
----
-
-## 8. Future Work
-
-If you had more time, how would you improve this recommender
-
-Examples:
-
-- Add support for multiple users and "group vibe" recommendations
-- Balance diversity of songs instead of always picking the closest match
-- Use more features, like tempo ranges or lyric themes
-
----
-
-## 9. Personal Reflection
-
-A few sentences about what you learned:
-
-- What surprised you about how your system behaved
-- How did building this change how you think about real music recommenders
-- Where do you think human judgment still matters, even if the model seems "smart"
 
