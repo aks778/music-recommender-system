@@ -33,6 +33,8 @@ Sample run 2- User prompt (using sidebar): genre: lofi, mood: sad, energy level:
 
 ## Testing Summary
 
+One way I used to measure the reliability of my system is by using findbeats.log to log how the system worked in order to find errors and debug quickly.
+
 **What worked:**
 - The scoring algorithm (recommend_songs) worked correctly and was verified with pytest — genre match, mood match, energy similarity, and acoustic preference all scored as expected
 - RAG returned real songs from songs.csv every time, with no hallucinations
