@@ -1,5 +1,7 @@
 # 🎵 FindBeats
 
+Project Demo: https://www.loom.com/share/850eed51e26049bd8eba5bbc082c508a
+
 ## Original Project Summary
 
 Original project is Project 3 - Music Recommender Simulation.The goal of the original project: provide user 5 song recommendations that match their personal music preference, taking into account their preferred genre, mood, energy level, and whether they like acousticness or not based on a scoring rule. The user had to know exactly what genre, mood, and energy level they wanted
