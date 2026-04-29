@@ -12,8 +12,8 @@ I think the risk of it being misused is negligible because it's a music recommen
 
 ## What surprised you while testing your AI's reliability?
 
-I was surprised by how qwen2.5:0.5b was returning songs which didn't even exist in songs.csv confidently, which showed me that AI would come up with its own answers when it didn't know what to do. I changed the architecture of the system from tool-calling to prompt-inject RAG because of errors in findbeats.log, and so this showed me that the same AI model can behave in different ways depending on how it's used.
+I was surprised by how qwen2.5:0.5b was returning songs which didn't even exist in songs.csv confidently, which showed me that AI would come up with its own answers when it didn't know what to do.
 
 ## Describe your collaboration with AI during this project. Identify one instance when the AI gave a helpful suggestion and one instance where its suggestion was flawed or incorrect.
 
-I primarily used Claude Code for this project. It was very helpful in understanding the feature I wanted to implement and a helpful suggestion it gave me was to switch to prompt injection RAG instead of tool calling which led to the model giving correct answers. An instance where its suggestion was flawed was when it added a method to replace the placeholders when printing in order to fix model hallucination, but it ultimately resulted in tool calling not working properly, and so the method had to be removed.
+I primarily used Claude Code for this project. It was very helpful in understanding the feature I wanted to implement and a helpful suggestion it gave me was to switch to simply retrieving songs from the .csv file and insert it into the LLM's prompt as context before generation, instead of tool calling which led to the model giving correct answers. An instance where its suggestion was flawed was when it added a method to replace the placeholders when printing in order to fix model hallucination, but it ultimately resulted in tool calling not working properly, and so the method had to be removed.
